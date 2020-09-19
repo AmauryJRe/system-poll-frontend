@@ -3,70 +3,56 @@ import { Button, Card, Form, FormControl, InputGroup, Row, Col } from "react-boo
 const axios = require('axios');
 
 function RegistrationForm() {
-	let pollName = React.createRef();
-
-	const [options, setOptions] = useState([{ name: "" }]);
+	const [options, setOptions] = useState();
 
 	const sendDataToApi = (e) => {
 		e.preventDefault();
+		console.log('Submit register form');
+		// let optionsFiltered = options.filter((option) => {
+		// 	return option.name !== "";
+		// });
 
-		let optionsFiltered = options.filter((option) => {
-			return option.name !== "";
-		});
+		// let optionsFinal = {};
 
-		let optionsFinal = {};
+		// optionsFiltered.forEach((element) => {
+		// 	optionsFinal[element.name] = 0;
+		// });
 
-		optionsFiltered.forEach((element) => {
-			optionsFinal[element.name] = 0;
-		});
+		// console.log({
+		// 	name: pollName.current.value,
+		// 	options: JSON.stringify(optionsFinal),
+		// });
 
-		console.log({
-			name: pollName.current.value,
-			options: JSON.stringify(optionsFinal),
-		});
-
-		axios.post("http://localhost:5000/poll", {
-			name: pollName.current.value,
-			options: JSON.stringify(optionsFinal)
-		}).then(response=>{
-			console.log(response)
-		}).catch(err=>{
-			console.log(err)
-		});
+		// axios.post("http://localhost:5000/user/register", {
+		// 	name: pollName.current.value,
+		// 	options: JSON.stringify(optionsFinal)
+		// }).then(response=>{
+		// 	console.log(response)
+		// }).catch(err=>{
+		// 	console.log(err)
+		// });
 	};
 
-	const handleInputChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...options];
-		list[index][name] = value;
-		setOptions(list);
-	};
+	const handleInputChange = (e) => {
+		let { name, value } = e.target;
+		console.log('Input:',name+'=', value)
 
-	const handleRemoveClick = (index) => {
-		const list = [...options];
-		list.splice(index, 1);
-		setOptions(list);
-	};
-
-	const handleAddClick = (event) => {
-		setOptions([...options, { name: "" }]);
-		event.preventDefault();
-	};
+    };
 
 	return (
-		<div class="container">
-			<Form>
+		<div className="container col-md-6">
+			<Form onSubmit={(e) => sendDataToApi(e)}>
 				<Form.Group controlId="exampleForm.ControlInput">
 					<Form.Label>Full Name</Form.Label>
-					<Form.Control type="username" placeholder="username" />
+					<Form.Control type="text" name="fullName" placeholder="Full Name" onChange={(e) => handleInputChange(e)} />
 				</Form.Group>
 				<Form.Group controlId="exampleForm.ControlInput">
 					<Form.Label>Username</Form.Label>
-					<Form.Control type="username" placeholder="username" />
+					<Form.Control type="username" name="username" placeholder="username" onChange={(e) => handleInputChange(e)}/>
 				</Form.Group>
 				<Form.Group controlId="formPlaintextPassword">
 					<Form.Label>Password</Form.Label>
-						<Form.Control type="password" placeholder="Password" />
+						<Form.Control type="password" name="password" placeholder="Password" onChange={(e) => handleInputChange(e)}/>
 				</Form.Group>
 				<Form.Group>
             <Form.File
@@ -78,10 +64,13 @@ function RegistrationForm() {
               // isInvalid={!!errors.file}
               // feedback={errors.file}
               id="validationFormik107"
-              feedbackTooltip
+						feedbackTooltip
+						onChange={(e) => handleInputChange(e)}
             />
           </Form.Group>
-			
+				 <Button variant="primary" type="submit">
+          Submit
+        </Button>
 			</Form>
 		</div>
 	);
