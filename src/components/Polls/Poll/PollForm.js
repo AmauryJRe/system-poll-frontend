@@ -12,10 +12,15 @@ function PollForm() {
 			return option.name !== "";
 		})
 
+		let optionsFinal = {};
+		
+		optionsFiltered.forEach(element => {
+			optionsFinal[element.name]=0;
+		});
 	
 		console.log({
 			name:pollName.current.value,
-			options: JSON.stringify(optionsFiltered)
+			options: JSON.stringify(optionsFinal)
 		});
 	};
 
