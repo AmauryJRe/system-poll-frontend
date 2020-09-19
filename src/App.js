@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Header from "./components/Header/Header";
 import Router from "./components/Router/Router";
 
 export default class App extends Component {

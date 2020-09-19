@@ -1,24 +1,16 @@
 import React, { Component } from "react";
-import { Button, Card, Form, FormControl, InputGroup, ListGroup } from "react-bootstrap";
+import { Button, Card, Form, FormControl } from "react-bootstrap";
 
 export default class PollForm extends Component {
 	state = {
 		options: [{ name: "" }],
 	};
 
-	handleChange = () => {};
-
-	handleAdd = (event) => {
-		this.setState = {
-			options: [...this.state.options, { name: event.target.value }],
-		};
-		event.preventDefault();
-		console.log(this.state.options);
-	};
 
 	render() {
-		let { options } = this.state;
 
+		let { options } = this.state;
+		
 		const handleInputChange = (e, index) => {
 			const { name, value } = e.target;
 			const list = [...options];
@@ -26,9 +18,10 @@ export default class PollForm extends Component {
 			this.setState({
 				options: list,
 			});
+
+			console.log(list);
 		};
 
-		// handle click event of the Remove button
 		const handleRemoveClick = (index) => {
 			const list = [...options];
 			list.splice(index, 1);
@@ -37,12 +30,12 @@ export default class PollForm extends Component {
 			});
 		};
 
-		// handle click event of the Add button
 		const handleAddClick = () => {
 			this.setState({
 				options: { name: "" },
 			});
 		};
+
 		return (
 			<div class="container">
 				<Card border="success">
@@ -51,36 +44,24 @@ export default class PollForm extends Component {
 					</Card.Header>
 					<Card.Body>
 						<Card.Title>Special title treatment</Card.Title>
-
 						<Form>
 							<Form.Group controlId="formGroupName">
 								<Form.Label>Poll Name</Form.Label>
-								<Form.Control type="text" placeholder="Enter The poll name" />
+								<Form.Control type="text" placeholder="Enter The poll name" defaultValue="asdads" />
 							</Form.Group>
 							<Form.Group controlId="formGroupOptions">
-								<Form.Label>Options</Form.Label>
-							</Form.Group>
-
-							{options.map((opt, idx) => {
-								return (
-									<div className="box">
+								<Form.Label>AddOption</Form.Label>
+								{options.map((opt, idx) => {
+									return (
 										<FormControl
-											name="firstName"
-											placeholder="Enter First Name"
-											value={opt.name}
+											name="optionName"
+											placeholder="Add option here"
+											defaultValue="asd"
 											onChange={(e) => handleInputChange(e, idx)}
 										/>
-										<div className="btn-box">
-											{options.length !== 1 && (
-												<button className="mr10" onClick={() => handleRemoveClick(idx)}>
-													Remove
-												</button>
-											)}
-											{options.length - 1 === idx && <button onClick={handleAddClick}>Add</button>}
-										</div>
-									</div>
-								);
-							})}
+									);
+								})}
+							</Form.Group>
 
 							<Button type="submit" variant="primary">
 								Go somewhere
