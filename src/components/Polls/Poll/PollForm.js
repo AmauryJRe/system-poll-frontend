@@ -2,8 +2,23 @@ import React, { Component, useState } from "react";
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
 
 function PollForm() {
+	let pollName = React.createRef();
+	
+	const [options, setOptions] = useState([{ name: "" }]);
 
-	const [options, setOptions] = useState([{name:""}]);
+	const sendDataToApi = (e) => {
+		e.preventDefault();
+		let optionsFiltered = options.filter(option=>{
+			return option.name !== "";
+		})
+
+	
+		console.log({
+			name:pollName.current.value,
+			options: JSON.stringify(optionsFiltered)
+		});
+	};
+
 
 	const handleInputChange = (e, index) => {
 		const { name, value } = e.target;
@@ -32,10 +47,10 @@ function PollForm() {
 				</Card.Header>
 				<Card.Body>
 					<Card.Title>Special title treatment</Card.Title>
-					<Form>
+					<Form onSubmit={(e) => sendDataToApi(e)}>
 						<Form.Group controlId="formGroupName">
 							<Form.Label>Poll Name</Form.Label>
-							<Form.Control type="text" placeholder="Enter The poll name" defaultValue="asdads" />
+							<Form.Control type="text" placeholder="Enter The poll name" ref={pollName} />
 						</Form.Group>
 						<Form.Group controlId="formGroupOptions">
 							<Form.Label>AddOption</Form.Label>
@@ -43,23 +58,23 @@ function PollForm() {
 								return (
 									<InputGroup className="mb-3">
 										<FormControl
-											name="optionName"
+											name="name"
 											placeholder="Add option here"
-											defaultValue="asd"
+											defaultValue={opt.name}
 											onChange={(e) => handleInputChange(e, idx)}
 										/>
 										<InputGroup.Append>
-										{ options.length !== 1 &&
-											<button variant="outline-secondary" onClick={handleRemoveClick}>
-												Remove
-											</button>
-										}
+											{options.length !== 1 && options.length - 1 !== idx && (
+												<button variant="outline-secondary" onClick={handleRemoveClick}>
+													Remove
+												</button>
+											)}
 
-{ options.length -1 === idx &&
-											<button variant="outline-secondary" onClick={(e) => handleAddClick(e)}>
-												Add
-											</button>
-										}
+											{options.length - 1 === idx && (
+												<button variant="outline-secondary" onClick={(e) => handleAddClick(e)}>
+													Add
+												</button>
+											)}
 										</InputGroup.Append>
 									</InputGroup>
 								);
