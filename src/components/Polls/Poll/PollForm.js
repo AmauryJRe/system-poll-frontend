@@ -1,36 +1,45 @@
 import React, { Component, useState } from "react";
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
+const axios = require('axios');
 
 function PollForm() {
 	let pollName = React.createRef();
-	
+
 	const [options, setOptions] = useState([{ name: "" }]);
 
 	const sendDataToApi = (e) => {
 		e.preventDefault();
-		let optionsFiltered = options.filter(option=>{
+
+		let optionsFiltered = options.filter((option) => {
 			return option.name !== "";
-		})
+		});
 
 		let optionsFinal = {};
-		
-		optionsFiltered.forEach(element => {
-			optionsFinal[element.name]=0;
+
+		optionsFiltered.forEach((element) => {
+			optionsFinal[element.name] = 0;
 		});
-	
+
 		console.log({
-			name:pollName.current.value,
+			name: pollName.current.value,
+			options: JSON.stringify(optionsFinal),
+		});
+
+		axios.post("http://localhost:5000/poll", {
+			name: pollName.current.value,
 			options: JSON.stringify(optionsFinal)
+		}).then(response=>{
+			console.log(response)
+		}).catch(err=>{
+			console.log(err)
 		});
 	};
-
 
 	const handleInputChange = (e, index) => {
 		const { name, value } = e.target;
 		const list = [...options];
 		list[index][name] = value;
 		setOptions(list);
-		console.log(list);
 	};
 
 	const handleRemoveClick = (index) => {
