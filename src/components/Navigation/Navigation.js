@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
-import { Button, Form, FormControl, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default class Navigation extends Component {
@@ -21,11 +21,9 @@ export default class Navigation extends Component {
 							<NavDropdown.Item as={Link} to ={'/addpoll'}>Separated link</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
-					<Form inline>
-						<FormControl type="text" placeholder="Search" className="mr-sm-2" />
-						<Button variant="outline-success">Search</Button>
-					</Form>
 				</Navbar.Collapse>
+				<Nav.Link className='mr-2' as={Link} to={'/register'}>Register</Nav.Link>
+				<Nav.Link className = 'mr-2' as={Link} to ={'/login'}>Login</Nav.Link>
 			</Navbar>
 		);
 	}
