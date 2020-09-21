@@ -16,7 +16,7 @@ export default class Polls extends Component {
                     key={poll._id}
                     className="fade"
                     timeout={100}> 
-                    <Poll data={poll}  handleDelete={this.props.handleDelete} handleRequest={this.props.handleRequest} sendDataToApi={this.props.sendDataToApi}/>
+                    <Poll data={poll} setVisible={this.props.setVisible} setCurrentPoll={this.props.setCurrentPoll} handleDelete={this.props.handleDelete} handleRequest={this.props.handleRequest} sendDataToApi={this.props.sendDataToApi}/>
                     </CSSTransition>
                 ))
             }

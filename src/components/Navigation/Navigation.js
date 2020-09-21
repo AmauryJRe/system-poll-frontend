@@ -2,11 +2,13 @@
 import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
 
 export default class Navigation extends Component {
 	render() {
 		return (
 			<Navbar bg="light" variant="light" expand="lg" sticky="top">
+				<Sidebar setSideBarVisible={this.props.setSideBarVisible} setVisible={this.props.setVisible} currentPoll={this.props.currentPoll}/>
 				<Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">

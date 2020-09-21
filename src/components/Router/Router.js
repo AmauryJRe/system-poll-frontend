@@ -12,9 +12,19 @@ export default class Router extends Component {
 	
 	state = {
 		polls: [],
-		auth: this.props.auth,
+auth: this.props.auth,
 		setAuthState: this.props.setAuthState
+		setSideBarVisible:false,
+		currentPoll:''
 	};
+
+	setVisible = () =>{
+		this.setState({setSideBarVisible:!this.state.setSideBarVisible});
+	}
+
+	setCurrentPoll = (poll) => {
+		this.setState({currentPoll:poll})
+	}
 	
 	componentDidMount() {
 		this.handleRequest();
@@ -102,10 +112,10 @@ export default class Router extends Component {
 	render() {
 		return (
 			<BrowserRouter>
-				<Header title="Polls Page" />
+				<Header setSideBarVisible={this.state.setSideBarVisible} setVisible={this.setVisible} currentPoll={this.state.currentPoll} title="Polls Page" />
 				<div className="container pt-3">
 					<Switch>
-						<Route exact path="/" render={() => <Polls polls={this.state.polls} handleDelete={this.handleDelete} handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi}/>} />
+						<Route exact path="/" render={() => <Polls polls={this.state.polls} setVisible={this.setVisible} handleDelete={this.handleDelete} handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi} setCurrentPoll={this.setCurrentPoll}/>} />
 						<Route exact path="/addpoll" render={() => <PollForm  handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi} />} />
 						<Route exact path="/editpoll" component={PollForm} />
 						<Route exact path="/register" render={() => <RegistrationForm />} />

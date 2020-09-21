@@ -5,7 +5,7 @@ export default class Header extends Component {
 	render() {
 		return (
 			<header>
-				<Navigation title={this.props.title} />
+				<Navigation setSideBarVisible={this.props.setSideBarVisible}  setVisible={this.props.setVisible} currentPoll={this.props.currentPoll} title={this.props.title} />
 			</header>
 		);
 	}

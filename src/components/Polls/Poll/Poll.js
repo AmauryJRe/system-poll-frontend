@@ -46,7 +46,7 @@ export default function Poll(props) {
 						</Link>
 					</Col>
 					<Col>
-						<Button variant="outline-secondary" disabled={closed} onClick={!closed ? () => greetToLog(options) : null}>
+						<Button variant="outline-secondary" disabled={closed} onClick={!closed ? () => {props.setVisible();props.setCurrentPoll(props.data)} : null}>
 							Details
 						</Button>
 					</Col>
