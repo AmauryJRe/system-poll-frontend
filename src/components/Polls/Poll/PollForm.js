@@ -1,8 +1,7 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
-const axios = require("axios");
 
 export default function PollForm(props) {
 	console.log(props.location);
@@ -63,7 +62,6 @@ export default function PollForm(props) {
 					Create a new Poll
 				</Card.Header>
 				<Card.Body>
-					{/* <Card.Title>Special title treatment</Card.Title> */}
 					<Form onSubmit={(e) => handleSubmit(e)}>
 						<Form.Group controlId="formGroupName">
 							<Form.Label>Poll Name</Form.Label>
