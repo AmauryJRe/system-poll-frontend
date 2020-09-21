@@ -4,19 +4,34 @@ import { Button, Form } from "react-bootstrap";
 import SweetAlert from 'react-bootstrap-sweetalert';
 import axios from 'axios';
 
-function RegistrationForm() {
+function RegistrationForm(props) {
 	const [formData, setOptions] = useState({});
 	const [show, setShow] = useState(false);
 	const [errors, setErrors] = useState('')
 	const [showError,setShowError] = useState(false)
 	let history = useHistory();
-
+	const {auth,setAuthState} = props
 	const sendDataToApi = (e) => {
 		e.preventDefault();
+		
 		axios.post("http://localhost:5000/user/login", formData).then(response => {
-			console.log(response.data)
+			const { token } = response.data;
+			const { username, role } = response.data.user;
+			// auth.token = token;
+			// auth.username = username;
+			// auth.role = role;
+			// auth.isLoggedIn = true;
+			console.log(token, username, role)
+			console.log(auth)
+			let authObject = {}
+			authObject.token = token;
+			auth.isLoggedIn = true;
+			auth.username = username;
+			auth.role = role;
+			setAuthState(authObject)
 			setShow(true)
-		}).catch(err=>{
+		}).catch(err => {
+			console.log(err)
 			const { error } = err.response.data
 			setShowError(true)
 			setErrors(error)
@@ -35,6 +50,7 @@ function RegistrationForm() {
 	}
 	const onConfirmError = ()=>{ 
 		setShowError(false)
+		
 		// TODO mark the field
 	}
 
