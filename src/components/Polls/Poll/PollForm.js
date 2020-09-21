@@ -5,70 +5,36 @@ import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
 const axios = require("axios");
 
 export default function PollForm(props) {
+	console.log(props.location);
 	
+	let pollName = React.createRef();
 	let pollData = (props.location && props.location.state.pollToEdit) || false;
 	let keysObject = [];
-	let requestType = 'post';
+	let requestType = "post";
 	if (pollData) {
 		const opts = pollData.options;
 		Object.keys(opts).forEach((key) => {
 			keysObject.push({ name: key });
 		});
-		requestType='patch';
+		requestType = "patch";
 	} else {
 		console.log("No data");
 	}
-
-	keysObject.push({name:""})
-	const [options, setOptions] = useState(keysObject);
 	
+	keysObject.push({ name: "" });
+
+	const [options, setOptions] = useState(keysObject);
+
 	const history = useHistory();
-	let pollName = React.createRef();
-
-	const sendDataToApi = (e) => {
+	
+	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		let optionsFiltered = options.filter((option) => {
-			return option.name !== "";
-		});
-
-		let optionsFinal = {};
-
-		optionsFiltered.forEach((element) => {
-			optionsFinal[element.name] = 0;
-		});
-
-		console.log({
-			name: pollName.current.value,
-			options: JSON.stringify(optionsFinal),
-		});
-
-		if(requestType==='post'){
-			axios
-			.post("http://localhost:5000/poll", {
-				name: pollName.current.value,
-				options: JSON.stringify(optionsFinal),
-			})
-			.then((response) => {
-				history.push("/");
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		}else if(requestType==='patch'){
-			axios
-			.patch(`http://localhost:5000/poll/${pollData._id}`, {
-				name: pollName.current.value,
-				options: JSON.stringify(optionsFinal),
-			})
-			.then((response) => {
-				history.push("/");
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if(requestType==='patch'){
+			console.log(props.location);
+			props.location.sendDataToApi(e, options, pollName, requestType, pollData);
+		}else{
+			props.sendDataToApi(e, options, pollName, requestType, pollData);
 		}
-
 		history.push('/');
 	};
 
@@ -98,7 +64,7 @@ export default function PollForm(props) {
 				</Card.Header>
 				<Card.Body>
 					{/* <Card.Title>Special title treatment</Card.Title> */}
-					<Form onSubmit={(e) => sendDataToApi(e)}>
+					<Form onSubmit={(e) => handleSubmit(e)}>
 						<Form.Group controlId="formGroupName">
 							<Form.Label>Poll Name</Form.Label>
 							<Form.Control

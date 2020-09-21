@@ -3,36 +3,11 @@
 import React, { Component } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Poll from "./Poll/Poll";
-
 export default class Polls extends Component {
-    state = {
-		polls: [],
-	};
-
-	componentDidMount() {
-		this.handleRequest();
-    }
-    
-    componentDidUpdate(){
-        this.handleRequest();
-    }
-	handleRequest = () => {
-		const urlPolls = `http://localhost:5000/poll`;
-		fetch(urlPolls)
-			.then((res) => {
-				return res.json();
-			})
-			.then((res) => {
-				this.setState({
-					polls: res,
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
+	
+	
 	render() {
-        const pollList = this.state.polls;
+        const pollList = this.props.polls;
 		return (
 			<TransitionGroup>
             {
@@ -40,8 +15,8 @@ export default class Polls extends Component {
                     <CSSTransition
                     key={poll._id}
                     className="fade"
-                    timeout={1000}> 
-                    <Poll data={poll}/>
+                    timeout={100}> 
+                    <Poll data={poll}  handleDelete={this.props.handleDelete} handleRequest={this.props.handleRequest} sendDataToApi={this.props.sendDataToApi}/>
                     </CSSTransition>
                 ))
             }

@@ -22,8 +22,8 @@ export default class Navigation extends Component {
 						</NavDropdown>
 					</Nav>
 				</Navbar.Collapse>
-				<Nav.Link className='mr-2' as={Link} to={'/register'}>Register</Nav.Link>
-				<Nav.Link className = 'mr-2' as={Link} to ={'/login'}>Login</Nav.Link>
+				<Nav.Link className='mr-2 btn btn-sm btn-outline-success' as={Link} to={'/register'}>Register</Nav.Link>
+				<Nav.Link className = 'mr-2 btn btn-sm btn-outline-success' as={Link} to ={'/login'}>Login</Nav.Link>
 			</Navbar>
 		);
 	}
