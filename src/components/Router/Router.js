@@ -11,10 +11,11 @@ export default class Router extends Component {
 		return (
 			<BrowserRouter>
 				<Header title="Polls Page" />
-				<div className="container py-1">
+				<div className="container pt-3">
 					<Switch>
 						<Route exact path="/" render={() => <Polls polls={this.props.polls} />} />
 						<Route exact path="/addpoll" render={() => <PollForm />} />
+<Route exact path="/editpoll" component={PollForm} />
 						<Route exact path="/register" render={() => <RegistrationForm />} />
 						<Route exact path="/login" render={() => <LoginForm />} />
 					</Switch>

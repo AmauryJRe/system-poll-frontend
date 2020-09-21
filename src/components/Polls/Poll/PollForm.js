@@ -1,11 +1,29 @@
 import React, { Component, useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import { Button, Card, Form, FormControl, InputGroup } from "react-bootstrap";
-const axios = require('axios');
+const axios = require("axios");
 
-function PollForm() {
+export default function PollForm(props) {
+	
+	let pollData = (props.location && props.location.state.pollToEdit) || false;
+	let keysObject = [];
+	let requestType = 'post';
+	if (pollData) {
+		const opts = pollData.options;
+		Object.keys(opts).forEach((key) => {
+			keysObject.push({ name: key });
+		});
+		requestType='patch';
+	} else {
+		console.log("No data");
+	}
+
+	keysObject.push({name:""})
+	const [options, setOptions] = useState(keysObject);
+	
+	const history = useHistory();
 	let pollName = React.createRef();
-
-	const [options, setOptions] = useState([{ name: "" }]);
 
 	const sendDataToApi = (e) => {
 		e.preventDefault();
@@ -25,14 +43,33 @@ function PollForm() {
 			options: JSON.stringify(optionsFinal),
 		});
 
-		axios.post("http://localhost:5000/poll", {
-			name: pollName.current.value,
-			options: JSON.stringify(optionsFinal)
-		}).then(response=>{
-			console.log(response)
-		}).catch(err=>{
-			console.log(err)
-		});
+		if(requestType==='post'){
+			axios
+			.post("http://localhost:5000/poll", {
+				name: pollName.current.value,
+				options: JSON.stringify(optionsFinal),
+			})
+			.then((response) => {
+				history.push("/");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		}else if(requestType==='patch'){
+			axios
+			.patch(`http://localhost:5000/poll/${pollData._id}`, {
+				name: pollName.current.value,
+				options: JSON.stringify(optionsFinal),
+			})
+			.then((response) => {
+				history.push("/");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		}
+
+		history.push('/');
 	};
 
 	const handleInputChange = (e, index) => {
@@ -54,17 +91,22 @@ function PollForm() {
 	};
 
 	return (
-		<div class="container">
+		<div className="container">
 			<Card border="success">
 				<Card.Header as="h5" className="text-center">
-					Featured
+					Create a new Poll
 				</Card.Header>
 				<Card.Body>
-					<Card.Title>Special title treatment</Card.Title>
+					{/* <Card.Title>Special title treatment</Card.Title> */}
 					<Form onSubmit={(e) => sendDataToApi(e)}>
 						<Form.Group controlId="formGroupName">
 							<Form.Label>Poll Name</Form.Label>
-							<Form.Control type="text" placeholder="Enter The poll name" ref={pollName} />
+							<Form.Control
+								type="text"
+								placeholder="Enter The poll name"
+								defaultValue={pollData ? pollData.name : null}
+								ref={pollName}
+							/>
 						</Form.Group>
 						<Form.Group controlId="formGroupOptions">
 							<Form.Label>AddOption</Form.Label>
@@ -79,15 +121,15 @@ function PollForm() {
 										/>
 										<InputGroup.Append>
 											{options.length !== 1 && options.length - 1 !== idx && (
-												<button variant="outline-secondary" onClick={handleRemoveClick}>
+												<Button variant="outline-secondary" onClick={() => handleRemoveClick(idx)}>
 													Remove
-												</button>
+												</Button>
 											)}
 
 											{options.length - 1 === idx && (
-												<button variant="outline-secondary" onClick={(e) => handleAddClick(e)}>
+												<Button variant="outline-secondary" onClick={(e) => handleAddClick(e)}>
 													Add
-												</button>
+												</Button>
 											)}
 										</InputGroup.Append>
 									</InputGroup>
@@ -95,8 +137,8 @@ function PollForm() {
 							})}
 						</Form.Group>
 
-						<Button type="submit" variant="primary">
-							Go somewhere
+						<Button type="submit" variant="success">
+							Save
 						</Button>
 					</Form>
 				</Card.Body>
@@ -104,5 +146,3 @@ function PollForm() {
 		</div>
 	);
 }
-
-export default PollForm;

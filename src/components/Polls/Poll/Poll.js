@@ -1,20 +1,56 @@
-import React, { Component } from 'react'
-import { Alert } from 'react-bootstrap'
+import { CheckIcon, CircleSlashIcon, PencilIcon } from "@primer/octicons-react";
+import React, { Component } from "react";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default class Poll extends Component {
-    render() {
-        return (
-            <div>
-                <Alert variant="success">
-					<Alert.Heading>Hey, nice to see you</Alert.Heading>
-					<p>
-						Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer
-						so that you can see how spacing within an alert works with this kind of content.
-					</p>
-					<hr />
-					<p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-				</Alert>
-            </div>
-        )
-    }
+	greetToLog = (opt) => {
+		console.log(opt);
+	};
+
+	render() {
+		const { name, options, closed, edited } = this.props.data;
+		return (
+			<Card className="shadow mb-3" border="light">
+				<Card.Body>
+					<Row>
+						<Col>
+							{closed ? (
+								<CircleSlashIcon size="medium" aria-label="Closed" />
+							) : edited ? (
+								<PencilIcon size="medium" aria-label="Edited" />
+							) : (
+								<CheckIcon size="medium" aria-label="NewPoll" />
+							)}
+						</Col>
+						<Col xs={9}>
+							<Card.Title as="h5">{name}</Card.Title>
+						</Col>
+						<Col>
+							<Link
+								to={{
+									pathname:'/editpoll',
+									state:{
+										pollToEdit:this.props.data
+									}
+								}}
+								className={closed ? "btn btn-md btn-outline-secondary disabled" : "btn btn-md btn-outline-secondary"}
+							>
+								Edit
+							</Link>
+						</Col>
+						<Col>
+							<Button
+								variant="outline-secondary"
+								disabled={closed}
+								onClick={!closed ? () => this.greetToLog(options) : null}
+							>
+								Details
+							</Button>
+						</Col>
+					</Row>
+				</Card.Body>
+			</Card>
+		);
+	}
 }
