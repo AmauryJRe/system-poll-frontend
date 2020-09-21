@@ -1,78 +1,70 @@
-import React, { Component, useState } from "react";
-import { Button, Form, FormControl, Card } from "react-bootstrap";
-const axios = require('axios');
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
+import SweetAlert from 'react-bootstrap-sweetalert';
+import axios from 'axios';
 
 function RegistrationForm() {
-	let pollName = React.createRef();
-
-	const [options, setOptions] = useState([{ name: "" }]);
+	const [formData, setOptions] = useState({});
+	const [show, setShow] = useState(false);
+	const [errors, setErrors] = useState('')
+	const [showError,setShowError] = useState(false)
+	let history = useHistory();
 
 	const sendDataToApi = (e) => {
 		e.preventDefault();
-
-		let optionsFiltered = options.filter((option) => {
-			return option.name !== "";
-		});
-
-		let optionsFinal = {};
-
-		optionsFiltered.forEach((element) => {
-			optionsFinal[element.name] = 0;
-		});
-
-		console.log({
-			name: pollName.current.value,
-			options: JSON.stringify(optionsFinal),
-		});
-
-		axios.post("http://localhost:5000/poll", {
-			name: pollName.current.value,
-			options: JSON.stringify(optionsFinal)
-		}).then(response=>{
-			console.log(response)
+		axios.post("http://localhost:5000/user/login", formData).then(response => {
+			console.log(response.data)
+			setShow(true)
 		}).catch(err=>{
-			console.log(err)
+			const { error } = err.response.data
+			setShowError(true)
+			setErrors(error)
 		});
 	};
 
-	const handleInputChange = (e, index) => {
-		const { name, value } = e.target;
-		const list = [...options];
-		list[index][name] = value;
-		setOptions(list);
+	const handleInputChange = (e) => {
+		let { name, value } = e.target;
+		formData.[name] = value;
+		setOptions(formData);
 	};
 
-	const handleRemoveClick = (index) => {
-		const list = [...options];
-		list.splice(index, 1);
-		setOptions(list);
-	};
-
-	const handleAddClick = (event) => {
-		setOptions([...options, { name: "" }]);
-		event.preventDefault();
-	};
+	const onConfirm = () => { 
+		setShow(false)
+		history.push("/");
+	}
+	const onConfirmError = ()=>{ 
+		setShowError(false)
+		// TODO mark the field
+	}
 
 	return (
     <div className="container col-md-4 " style={{marginTop:'5rem'}}>
-      <Form>
+      <Form onSubmit={(e) => sendDataToApi(e)}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Control type="email" name="username" placeholder="Enter email" onChange={(e) => handleInputChange(e)}/>
           <Form.Text className="text-muted">
             We'll never share your email with anyone else.
           </Form.Text>
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" name="password" placeholder="Password" onChange={(e) => handleInputChange(e)} />
         </Form.Group>
-        {/* <Form.Group controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group> */}
         <Button variant="primary" type="submit">
-          Submit
+					Submit
         </Button>
+				{show &&(
+					<SweetAlert success title={formData.username}	timeout={3500} onConfirm={()=>onConfirm()}>
+							You are logged in successfully
+					</SweetAlert>
+				)}
+				{showError &&(
+					<SweetAlert error title='Error'	timeout={3500} onConfirm={()=>onConfirmError()}>
+						{errors}
+					</SweetAlert>
+				)}
       </Form>
 		</div>
 	);
