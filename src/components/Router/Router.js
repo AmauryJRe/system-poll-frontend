@@ -12,6 +12,8 @@ export default class Router extends Component {
 	
 	state = {
 		polls: [],
+		auth: this.props.auth,
+		setAuthState: this.props.setAuthState
 	};
 	
 	componentDidMount() {
@@ -107,7 +109,7 @@ export default class Router extends Component {
 						<Route exact path="/addpoll" render={() => <PollForm  handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi} />} />
 						<Route exact path="/editpoll" component={PollForm} />
 						<Route exact path="/register" render={() => <RegistrationForm />} />
-						<Route exact path="/login" render={() => <LoginForm />} />
+						<Route exact path="/login" render={() => <LoginForm auth={this.state.auth} setAuthState={this.state.setAuthState}/>} />
 					</Switch>
 				</div>
 			</BrowserRouter>
