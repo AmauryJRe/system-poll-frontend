@@ -42,15 +42,18 @@ export default class Router extends Component {
 
 	handleRequest = () => {
 		const urlPolls = `http://localhost:5000/poll`;
-		const user_id= 10;
-		const urlCantVote = `http://localhost:5000/vote/cantVote/${user_id}`;
-		Axios.get(urlCantVote)
+		
+		if (this.props.auth.isLoggedIn) {
+			const user_id= localStorage.getItem('user_id');
+			const urlCantVote = `http://localhost:5000/vote/cantVote/${user_id}`;
+			Axios.get(urlCantVote)
 			.then((res) => {
 				this.setState({pollsUserCantVote:res.data})
 			})
 			.catch((err) => {
 				console.log(err);
 			});
+		}
 
 		fetch(urlPolls)
 			.then((res) => {

@@ -25,42 +25,48 @@ export default function Poll(props) {
 					<Col xs={8}>
 						<Card.Title as="h5">{name}</Card.Title>
 					</Col>
-					<Col>
-						<Button onClick={() => props.handleDelete(_id)} variant="outline-danger">
-							Delete
-						</Button>
-					</Col>
-					<Col>
-						<Link
-							to={{
-								pathname: "/editpoll",
-								state: {
-									pollToEdit: props.data,
-								},
-								sendDataToApi: props.sendDataToApi,
-								handleRequest: props.handleRequest,
-							}}
-							className={closed ? "btn btn-md btn-outline-secondary disabled" : "btn btn-md btn-outline-secondary"}
-						>
-							Edit
-						</Link>
-					</Col>
-					<Col>
-						<Button
-							variant="outline-secondary"
-							disabled={closed}
-							onClick={
-								!closed
-									? () => {
-											props.setVisible();
-											props.setCurrentPoll(props.data);
-									  }
-									: null
-							}
-						>
-							Details
-						</Button>
-					</Col>
+					{localStorage.getItem("polls.isLoggedIn") && localStorage.getItem("polls.role") !== "user" && (
+						<Col>
+							<Button onClick={() => props.handleDelete(_id)} variant="outline-danger">
+								Delete
+							</Button>
+						</Col>
+					)}
+					{localStorage.getItem("polls.isLoggedIn") && localStorage.getItem("polls.role") !== "user" && (
+						<Col>
+							<Link
+								to={{
+									pathname: "/editpoll",
+									state: {
+										pollToEdit: props.data,
+									},
+									sendDataToApi: props.sendDataToApi,
+									handleRequest: props.handleRequest,
+								}}
+								className={closed ? "btn btn-md btn-outline-secondary disabled" : "btn btn-md btn-outline-secondary"}
+							>
+								Edit
+							</Link>
+						</Col>
+					)}
+					{localStorage.getItem("polls.isLoggedIn") && (
+						<Col>
+							<Button
+								variant="outline-secondary"
+								disabled={closed}
+								onClick={
+									!closed
+										? () => {
+												props.setVisible();
+												props.setCurrentPoll(props.data);
+										  }
+										: null
+								}
+							>
+								Details
+							</Button>
+						</Col>
+					)}
 				</Row>
 			</Card.Body>
 		</Card>

@@ -9,9 +9,11 @@ export default class Polls extends Component {
 		const pollList = this.props.polls;
 		return (
 			<TransitionGroup>
+				{localStorage.getItem('polls.isLoggedIn') && localStorage.getItem('polls.role') !=='user' &&
 				<Link className="btn btn-lg btn-outline-success mb-2" to={"/addpoll"}>
 					Add New Poll
 				</Link>
+	}
 				{pollList.map((poll) => (
 					<CSSTransition key={poll._id} className="fade" timeout={100}>
 						<Poll
