@@ -37,8 +37,8 @@ export default function Poll(props) {
 								state: {
 									pollToEdit: props.data,
 								},
-								sendDataToApi:props.sendDataToApi,
-								handleRequest:props.handleRequest
+								sendDataToApi: props.sendDataToApi,
+								handleRequest: props.handleRequest,
 							}}
 							className={closed ? "btn btn-md btn-outline-secondary disabled" : "btn btn-md btn-outline-secondary"}
 						>
@@ -46,7 +46,18 @@ export default function Poll(props) {
 						</Link>
 					</Col>
 					<Col>
-						<Button variant="outline-secondary" disabled={closed} onClick={!closed ? () => {props.setVisible();props.setCurrentPoll(props.data)} : null}>
+						<Button
+							variant="outline-secondary"
+							disabled={closed}
+							onClick={
+								!closed
+									? () => {
+											props.setVisible();
+											props.setCurrentPoll(props.data);
+									  }
+									: null
+							}
+						>
 							Details
 						</Button>
 					</Col>
