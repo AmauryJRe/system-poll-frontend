@@ -9,7 +9,7 @@ export default class Polls extends Component {
 		const pollList = this.props.polls;
 		return (
 			<TransitionGroup>
-				{localStorage.getItem('polls.isLoggedIn') && localStorage.getItem('polls.role') !=='user' &&
+				{localStorage.getItem('polls.isLoggedIn') === null ? false:JSON.parse(localStorage.getItem('polls.isLoggedIn')) &&
 				<Link className="btn btn-lg btn-outline-success mb-2" to={"/addpoll"}>
 					Add New Poll
 				</Link>
