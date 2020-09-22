@@ -9,6 +9,7 @@ export default function Poll(props) {
 	};
 
 	const { _id, name, options, closed, edited } = props.data;
+	const {isLoggedIn} = props.auth;
 	return (
 		<Card className="shadow mb-3" border="light">
 			<Card.Body>
@@ -25,14 +26,14 @@ export default function Poll(props) {
 					<Col xs={8}>
 						<Card.Title as="h5">{name}</Card.Title>
 					</Col>
-					{localStorage.getItem("polls.isLoggedIn") && localStorage.getItem("polls.role") !== "user" && (
+					{isLoggedIn && (
 						<Col>
 							<Button onClick={() => props.handleDelete(_id)} variant="outline-danger">
 								Delete
 							</Button>
 						</Col>
 					)}
-					{localStorage.getItem("polls.isLoggedIn") && localStorage.getItem("polls.role") !== "user" && (
+					{isLoggedIn && (
 						<Col>
 							<Link
 								to={{
@@ -49,7 +50,7 @@ export default function Poll(props) {
 							</Link>
 						</Col>
 					)}
-					{localStorage.getItem("polls.isLoggedIn") && (
+					{isLoggedIn && (
 						<Col>
 							<Button
 								variant="outline-secondary"
