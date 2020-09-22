@@ -190,7 +190,7 @@ export default class Router extends Component {
 							render={() => <PollForm handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi} />}
 						/>
 						<Route exact path="/editpoll" component={PollForm} />
-						<Route exact path="/register" render={() => <RegistrationForm />} />
+						<Route exact path="/register" render={() => <RegistrationForm setAuthState={this.props.setAuthState}/>} />
 						<Route
 							exact
 							path="/login"
