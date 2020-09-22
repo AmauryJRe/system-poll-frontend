@@ -30,6 +30,7 @@ export default class Sidebar extends Component {
 			const user_id = 10;
 			const item_voted = this.state.selectedOption;
 			this.props.makeVote(e,user_id,poll_id,item_voted);
+			this.props.setVisible();
 		}
 	};
 
@@ -52,7 +53,6 @@ export default class Sidebar extends Component {
 						this.setState({ selectedOption: null });
 					}}
 					title="Hello World"
-					//items={["123", "456"]}
 				>
 					<Card>
 						<Card.Header as="h5">Poll</Card.Header>
