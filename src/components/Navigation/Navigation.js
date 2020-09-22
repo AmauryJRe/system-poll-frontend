@@ -46,7 +46,6 @@ const Navigation=(props)=> {
 		);
 		const userLinks = (
 			<Fragment>
-				
 				<Sidebar
 					setSideBarVisible={props.setSideBarVisible}
 					setVisible={props.setVisible}
@@ -61,20 +60,7 @@ const Navigation=(props)=> {
 						<Nav.Link as={Link} to={"/"}>
 							Home
 						</Nav.Link>
-						<Nav.Link as={Link} to={'/addpoll'}>AddPoll</Nav.Link>
-						{isLoggedIn  && (
-							<Nav.Link as={Link} to={"/users"}>
-								Users
-							</Nav.Link>
-						)}
-					
-						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
-							<NavDropdown.Item as={Link} to={'/'}>Action</NavDropdown.Item>
-							<NavDropdown.Item as={Link} to={'/addpoll'}>Another action</NavDropdown.Item>
-							<NavDropdown.Item as={Link} to={'/'}>Something</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item as={Link} to={'/addpoll'}>Separated link</NavDropdown.Item>
-						</NavDropdown>
+						<Nav.Link as={Link} to={'/users'}>Users</Nav.Link>
 						</Nav>
 				</Navbar.Collapse>
 					<Nav.Link className='mr-2 btn btn-sm btn-outline-success' onClick={handleClickLogOut}>Logout</Nav.Link>
