@@ -7,9 +7,10 @@ import Poll from "./Poll/Poll";
 export default class Polls extends Component {
 	render() {
 		const pollList = this.props.polls;
+		const {isLoggedIn} = this.props.auth;
 		return (
 			<TransitionGroup>
-				{localStorage.getItem('polls.isLoggedIn') === null ? false:JSON.parse(localStorage.getItem('polls.isLoggedIn')) &&
+				{isLoggedIn &&
 				<Link className="btn btn-lg btn-outline-success mb-2" to={"/addpoll"}>
 					Add New Poll
 				</Link>
@@ -23,6 +24,7 @@ export default class Polls extends Component {
 							handleDelete={this.props.handleDelete}
 							handleRequest={this.props.handleRequest}
 							sendDataToApi={this.props.sendDataToApi}
+							auth={this.props.auth}
 						/>
 					</CSSTransition>
 				))}
