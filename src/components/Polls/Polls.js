@@ -7,13 +7,13 @@ import Poll from "./Poll/Poll";
 export default class Polls extends Component {
 	render() {
 		const pollList = this.props.polls;
-		const {isLoggedIn} = this.props.auth;
+		const { isLoggedIn } = this.props.auth;
 		return (
 			<TransitionGroup>
-				{isLoggedIn &&
-				<Link className="btn btn-lg btn-outline-success mb-2" to={"/addpoll"}>
+				{isLoggedIn?(<Link className="btn btn-lg btn-outline-success mb-2" to={"/addpoll"}>
 					Add New Poll
-				</Link>
+				</Link>):(<b></b>)
+				
 	}
 				{pollList.map((poll) => (
 					<CSSTransition key={poll._id} className="fade" timeout={100}>
