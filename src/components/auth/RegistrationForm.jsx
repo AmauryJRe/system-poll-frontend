@@ -2,20 +2,30 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import SweetAlert from 'react-bootstrap-sweetalert';
+
 import axios from 'axios';
 
 function RegistrationForm(props) {
 	const [formData, setOptions] = useState({});
 	const [show, setShow] = useState(false);
-	const [errors, setErrors] = useState('')
-	const [showError,setShowError] = useState(false)
+	const [errors, setErrors] = useState('');
+	const [showError, setShowError] = useState(false);
+	const [fileState, setFileState] = useState({
+        selectedFile: null
+      });
 	let history = useHistory();
 	const { setAuthState } = props
 
 	const sendDataToApi = (e) => {
 		e.preventDefault();
 
-		axios.post("http://localhost:5000/user/register", formData).then(response=>{
+		const data = new FormData() 
+		data.append('file', fileState.selectedFile)
+		data.append('fullName',formData.fullName)
+		data.append('password', formData.password)
+		data.append('username', formData.username)
+		
+			axios.post("http://localhost:5000/user/register", data).then(response => {
 			const { token } = response.data;
 			const { username, role } = response.data.user;
 			let authObject = {}
@@ -46,6 +56,12 @@ function RegistrationForm(props) {
 		setShowError(false)
 		
 	}
+	const onChangeHandler = event=>{
+    setFileState({
+      selectedFile: event.target.files[0],
+      loaded: 0,
+    })
+	}
 
 	return (
 		<div className="container col-md-6">
@@ -68,12 +84,11 @@ function RegistrationForm(props) {
               required
               name="file"
               label="File"
-              // onChange={handleChange}
               // isInvalid={!!errors.file}
               // feedback={errors.file}
               id="validationFormik107"
 						feedbackTooltip
-						onChange={(e) => handleInputChange(e)}
+						onChange={(e) => onChangeHandler(e)}
             />
           </Form.Group>
 				 <Button variant="outline-success" type="submit">
