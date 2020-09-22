@@ -12,7 +12,7 @@ import Axios from "axios";
 export default class Router extends Component {
 	state = {
 		polls: [],
-		users: [{id:1, fullName:'yasmani',username:'yasmani.pena',role:'user'}, {id:2,fullName:'yasmani',username:'yasmani.pena',role:'user'}],
+		users: [],
 		pollsUserCantVote: [],
 		setSideBarVisible: false,
 		currentPoll: "",
@@ -80,6 +80,19 @@ export default class Router extends Component {
 			.then((res) => {
 				this.setState({
 					polls: res,
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+
+			fetch("http://localhost:5000/userprofile")
+			.then((res) => {
+				return res.json();
+			})
+			.then((res) => {
+				this.setState({
+					users: res,
 				});
 			})
 			.catch((err) => {
