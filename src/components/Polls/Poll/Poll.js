@@ -1,7 +1,8 @@
 import { CheckIcon, CircleSlashIcon, PencilIcon } from "@primer/octicons-react";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function Poll(props) {
 	const greetToLog = (data) => {
@@ -9,7 +10,11 @@ export default function Poll(props) {
 	};
 
 	const { _id, name, options, closed, edited } = props.data;
-	const {isLoggedIn} = props.auth;
+	const { isLoggedIn } = props.auth;
+	const [show, setShow] = useState(false);
+	const deleConfirmed = () => { 
+		props.handleDelete(_id)
+	}
 	return (
 		<Card className="shadow mb-3" border="light">
 			<Card.Body>
@@ -28,7 +33,7 @@ export default function Poll(props) {
 					</Col>
 					{isLoggedIn && (
 						<Col>
-							<Button onClick={() => props.handleDelete(_id)} variant="outline-danger">
+							<Button onClick={() => { setShow(true) }}variant="outline-danger">
 								Delete
 							</Button>
 						</Col>
@@ -70,6 +75,20 @@ export default function Poll(props) {
 					)}
 				</Row>
 			</Card.Body>
+			{show && (
+				<SweetAlert
+					warning
+					showCancel
+					confirmBtnText="Yes, delete it!"
+					confirmBtnBsStyle="danger"
+					title="Are you sure?"
+					onConfirm={deleConfirmed}
+					onCancel={() => { setShow(false) }}
+					focusCancelBtn
+						>
+							You will not be able to recover this poll
+						</SweetAlert>
+				)}
 		</Card>
 	);
 }
