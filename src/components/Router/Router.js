@@ -5,11 +5,14 @@ import PollForm from "../Polls/Poll/PollForm";
 import RegistrationForm from "../auth/RegistrationForm";
 import LoginForm from "../auth/LoginForm";
 import Polls from "../Polls/Polls";
+import Users from "../User/Users"
 import Axios from "axios";
+
 
 export default class Router extends Component {
 	state = {
 		polls: [],
+		users: [{fullName:'yasmani',username:'yasmani.pena',role:'user'},{fullName:'yasmani',username:'yasmani.pena',role:'user'}],
 		pollsUserCantVote: [],
 		setSideBarVisible: false,
 		currentPoll: "",
@@ -190,6 +193,19 @@ export default class Router extends Component {
 							render={() => <PollForm handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi} />}
 						/>
 						<Route exact path="/editpoll" component={PollForm} />
+						<Route exact
+							path="/users"
+							render={() => (
+								<Users
+									users={this.state.users}
+									auth={this.props.auth}
+									// setVisible={this.setVisible}
+									// handleDelete={this.handleDelete}
+									// handleRequest={this.handleRequest}
+									// sendDataToApi={this.sendDataToApi}
+									// setCurrentPoll={this.setCurrentPoll}
+								/>
+							)} />
 						<Route exact path="/register" render={() => <RegistrationForm setAuthState={this.props.setAuthState}/>} />
 						<Route
 							exact
