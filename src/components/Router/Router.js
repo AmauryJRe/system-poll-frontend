@@ -11,8 +11,6 @@ export default class Router extends Component {
 	state = {
 		polls: [],
 		pollsUserCantVote: [],
-		auth: this.props.auth,
-		setAuthState: this.props.setAuthState,
 		setSideBarVisible: false,
 		currentPoll: "",
 	};
@@ -166,6 +164,8 @@ export default class Router extends Component {
 					makeVote={this.makeVote}
 					pollsUserCantVote={this.state.pollsUserCantVote}
 					title="Polls Page"
+					auth={this.props.auth}
+					setAuthState={this.props.setAuthState}
 				/>
 				<div className="container pt-3">
 					<Switch>
@@ -193,7 +193,7 @@ export default class Router extends Component {
 						<Route
 							exact
 							path="/login"
-							render={() => <LoginForm auth={this.state.auth} setAuthState={this.state.setAuthState} />}
+							render={() => <LoginForm auth={this.props.auth} setAuthState={this.props.setAuthState} />}
 						/>
 					</Switch>
 				</div>
