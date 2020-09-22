@@ -21,6 +21,7 @@ export default class App extends Component {
 		auth.token = localStorage.getItem('polls.token')
 		auth.username = localStorage.getItem('polls.username')
 		auth.role = localStorage.getItem('polls.role')
+		auth.user_id = localStorage.getItem('polls.user_id')
 		return auth
 	}
 
@@ -29,14 +30,16 @@ export default class App extends Component {
 				localStorage.setItem('polls.token','');
 				localStorage.setItem('polls.isLoggedIn',false);
 				localStorage.setItem('polls.username','');
-				localStorage.setItem('polls.role','');
+				localStorage.setItem('polls.role', '');
+				localStorage.setItem('polls.user_id','');
 				
 			}
 			else {
 				localStorage.setItem('polls.token',authState.token);
 				localStorage.setItem('polls.isLoggedIn',authState.isLoggedIn);
 				localStorage.setItem('polls.username',authState.username);
-				localStorage.setItem('polls.role',authState.role||'');
+				localStorage.setItem('polls.role', authState.role || '');
+				localStorage.setItem('polls.user_id',authState.user_id || '');
 			}
 	}
 

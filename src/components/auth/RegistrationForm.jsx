@@ -27,12 +27,13 @@ function RegistrationForm(props) {
 		
 			axios.post("http://localhost:5000/user/register", data).then(response => {
 			const { token } = response.data;
-			const { username, role } = response.data.user;
+			const { username, role, id } = response.data.user;
 			let authObject = {}
 			authObject.token = token;
 			authObject.isLoggedIn = true;
 			authObject.username = username;
-			authObject.role = role;
+				authObject.role = role;
+				authObject.user_id = id;
 			setAuthState(authObject)
 			setShow(true)
 		}).catch(err=>{
