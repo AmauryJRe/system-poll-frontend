@@ -1,39 +1,40 @@
 import { CheckIcon, CircleSlashIcon, PencilIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
-import { Button, Card, Col, Row ,Image} from "react-bootstrap";
+import { Button, Card, Col, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import SweetAlert from 'react-bootstrap-sweetalert';
+import SweetAlert from "react-bootstrap-sweetalert";
 export default function Poll(props) {
-
-	const { id, name, closed, edited } = props.data;
+	const { id, username, fullName, avatar } = props.data;
+	let TYPED_ARRAY = new Uint8Array(avatar.data.data);
+	const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
+	let base64String = btoa(STRING_CHAR);
+	
 	const { isLoggedIn } = props.auth;
 	const [show, setShow] = useState(false);
-	const deleConfirmed = () => { 
-		props.handleDelete(id)  
-  }
+	const deleConfirmed = () => {
+		props.handleDelete(id);
+	};
 	return (
-    <Card className="shadow mb-3" border="light">
-      <Card.Header></Card.Header>
+		<Card className="shadow mb-3" border="light">
 			<Card.Body>
 				<Row>
-					<Col>
-						{closed ? (
-							<CircleSlashIcon size="medium" aria-label="Closed" />
-						) : edited ? (
-							<PencilIcon size="medium" aria-label="Edited" />
-						) : (
-							<CheckIcon size="medium" aria-label="NewPoll" />
-						)}
+					<Col xs={1} md={1}>
+						<Image src={`data:${avatar.contentType};base64,${base64String}`} width='50' height='50' roundedCircle />
 					</Col>
-					<Col xs={8}>
-						<Card.Title as="h5">{name}</Card.Title>
-          </Col>
-          <Col xs={6} md={4}>
-            <Image src="holder.js/171x180" roundedCircle />
-          </Col>
+					<Col xs={2}>
+						<Card.Title as="h5">{username}</Card.Title>
+					</Col>
+					<Col xs={5}>
+						<Card.Title as="h5">{fullName}</Card.Title>
+					</Col>
 					{isLoggedIn && (
 						<Col>
-							<Button onClick={() => { setShow(true) }}variant="outline-danger">
+							<Button
+								onClick={() => {
+									setShow(true);
+								}}
+								variant="outline-danger"
+							>
 								Delete
 							</Button>
 						</Col>
@@ -42,14 +43,14 @@ export default function Poll(props) {
 						<Col>
 							<Link
 								to={{
-									pathname: "/editpoll",
+									pathname: "/edituser",
 									state: {
 										pollToEdit: props.data,
 									},
 									sendDataToApi: props.sendDataToApi,
 									handleRequest: props.handleRequest,
 								}}
-								className={closed ? "btn btn-md btn-outline-secondary disabled" : "btn btn-md btn-outline-secondary"}
+								className={"btn btn-md btn-outline-secondary"}
 							>
 								Edit
 							</Link>
@@ -59,15 +60,10 @@ export default function Poll(props) {
 						<Col>
 							<Button
 								variant="outline-secondary"
-								disabled={closed}
-								onClick={
-									!closed
-										? () => {
-												props.setVisible();
-												props.setCurrentPoll(props.data);
-										  }
-										: null
-								}
+								onClick={() => {
+									props.setVisible();
+									props.setCurrentPoll(props.data);
+								}}
 							>
 								Details
 							</Button>
@@ -83,12 +79,14 @@ export default function Poll(props) {
 					confirmBtnBsStyle="danger"
 					title="Are you sure?"
 					onConfirm={deleConfirmed}
-					onCancel={() => { setShow(false) }}
+					onCancel={() => {
+						setShow(false);
+					}}
 					focusCancelBtn
-						>
-							You will not be able to recover this poll
-						</SweetAlert>
-				)}
+				>
+					You will not be able to recover this poll
+				</SweetAlert>
+			)}
 		</Card>
 	);
 }
