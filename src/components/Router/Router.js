@@ -10,7 +10,7 @@ import Axios from "axios";
 export default class Router extends Component {
 	state = {
 		polls: [],
-		pollsUserCantVote:[],
+		pollsUserCantVote: [],
 		auth: this.props.auth,
 		setAuthState: this.props.setAuthState,
 		setSideBarVisible: false,
@@ -30,29 +30,46 @@ export default class Router extends Component {
 	}
 
 	handleDelete = (id) => {
-		console.log("delete the poll with id " + id);
-		Axios.delete(`http://localhost:5000/poll/${id}`)
-			.then((res) => {
-				this.handleRequest();
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if (this.props.auth.isLoggedIn) {
+			console.log("delete the poll with id " + id);
+			var config = {
+				method: "delete",
+				url: `http://localhost:5000/poll/${id}`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+			};
+			Axios(config)
+				.then((res) => {
+					this.handleRequest();
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
 	handleRequest = () => {
 		const urlPolls = `http://localhost:5000/poll`;
-		
+
 		if (this.props.auth.isLoggedIn) {
-			const user_id= localStorage.getItem('user_id');
-			const urlCantVote = `http://localhost:5000/vote/cantVote/${user_id}`;
-			Axios.get(urlCantVote)
-			.then((res) => {
-				this.setState({pollsUserCantVote:res.data})
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			const user_id = localStorage.getItem("user_id");
+			var config = {
+				method: "get",
+				url: `http://localhost:5000/vote/cantVote/${user_id}`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+			};
+			Axios(config)
+				.then((res) => {
+					this.setState({ pollsUserCantVote: res.data });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 
 		fetch(urlPolls)
@@ -121,14 +138,22 @@ export default class Router extends Component {
 
 	makeVote = (e, user_id, poll_id, item_voted) => {
 		e.preventDefault();
-		console.log({ user_id, poll_id, item_voted });
+		if (this.props.auth.isLoggedIn) {
+			var config = {
+				method: "get",
+				url: `http://localhost:5000/vote`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+			};
 		Axios.post("http://localhost:5000/vote", { user_id: user_id, poll_id: poll_id, item_voted: item_voted })
 			.then((res) => {
 				this.handleRequest();
 			})
 			.catch((err) => {
 				console.error(err);
-			});
+			});}
 	};
 
 	render() {
