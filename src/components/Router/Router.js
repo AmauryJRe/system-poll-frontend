@@ -180,6 +180,7 @@ export default class Router extends Component {
 									handleRequest={this.handleRequest}
 									sendDataToApi={this.sendDataToApi}
 									setCurrentPoll={this.setCurrentPoll}
+									auth={this.props.auth}
 								/>
 							)}
 						/>
