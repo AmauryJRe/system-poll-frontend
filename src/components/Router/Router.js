@@ -12,7 +12,7 @@ import Axios from "axios";
 export default class Router extends Component {
 	state = {
 		polls: [],
-		users: [{fullName:'yasmani',username:'yasmani.pena',role:'user'},{fullName:'yasmani',username:'yasmani.pena',role:'user'}],
+		users: [{id:1, fullName:'yasmani',username:'yasmani.pena',role:'user'}, {id:2,fullName:'yasmani',username:'yasmani.pena',role:'user'}],
 		pollsUserCantVote: [],
 		setSideBarVisible: false,
 		currentPoll: "",
@@ -140,14 +140,6 @@ export default class Router extends Component {
 	makeVote = (e, user_id, poll_id, item_voted) => {
 		e.preventDefault();
 		if (this.props.auth.isLoggedIn) {
-			var config = {
-				method: "get",
-				url: `http://localhost:5000/vote`,
-				headers: {
-					"Content-Type": "application/json",
-					"header-auth-token": localStorage.getItem("polls.token"),
-				},
-			};
 		Axios.post("http://localhost:5000/vote", { user_id: user_id, poll_id: poll_id, item_voted: item_voted })
 			.then((res) => {
 				this.handleRequest();

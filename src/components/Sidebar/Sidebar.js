@@ -1,5 +1,3 @@
-import { render } from "@testing-library/react";
-import Axios from "axios";
 import React, { Component } from "react";
 import { Badge, Button, Card, Col, Form, Row } from "react-bootstrap";
 import SideNav, { MenuIcon } from "react-simple-sidenav";

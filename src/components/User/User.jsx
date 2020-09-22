@@ -4,11 +4,8 @@ import { Button, Card, Col, Row ,Image} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SweetAlert from 'react-bootstrap-sweetalert';
 export default function Poll(props) {
-	const greetToLog = (data) => {
-		console.log(data);
-	};
 
-	const { id, name, options, closed, edited } = props.data;
+	const { id, name, closed, edited } = props.data;
 	const { isLoggedIn } = props.auth;
 	const [show, setShow] = useState(false);
 	const deleConfirmed = () => { 

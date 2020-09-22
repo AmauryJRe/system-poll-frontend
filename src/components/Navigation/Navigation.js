@@ -62,7 +62,7 @@ const Navigation=(props)=> {
 							Home
 						</Nav.Link>
 						<Nav.Link as={Link} to={'/addpoll'}>AddPoll</Nav.Link>
-						{localStorage.getItem("polls.isLoggedIn") && localStorage.getItem("polls.role") === "admin" && (
+						{isLoggedIn  && (
 							<Nav.Link as={Link} to={"/users"}>
 								Users
 							</Nav.Link>
