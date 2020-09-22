@@ -10,7 +10,9 @@ function RegistrationForm(props) {
 	const [errors, setErrors] = useState('')
 	const [showError,setShowError] = useState(false)
 	let history = useHistory();
-	const {setAuthState} = props
+	const { setAuthState } = props
+	
+
 	const sendDataToApi = (e) => {
 		e.preventDefault();
 		
@@ -25,7 +27,7 @@ function RegistrationForm(props) {
 			setAuthState(authObject)
 			setShow(true)
 		}).catch(err => {
-			const { error } = err.response.data
+			const { error } = err.response && err.response ? err.response.data:err.message;
 			setShowError(true)
 			setErrors(error)
 		});
