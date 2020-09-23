@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
 export default function Poll(props) {
 	
-	const { id, username, fullName, avatar } = props.data;
+	const { id, username, fullName, avatar ,role } = props.data;
 	
-	// let TYPED_ARRAY = new Uint8Array(avatar.data.data);
-	// const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
-	// let base64String = btoa(STRING_CHAR);
+	let TYPED_ARRAY = new Uint8Array(avatar.data.data);
+	const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
+	let base64String = btoa(STRING_CHAR);
 	
 	const { isLoggedIn } = props.auth;
 	const [show, setShow] = useState(false);
@@ -20,7 +20,7 @@ export default function Poll(props) {
 			<Card.Body>
 				<Row>
 					<Col xs={1} md={1}>
-						{/* <Image src={`data:${avatar.contentType};base64,${"base64String"}`} width='50' height='50' roundedCircle /> */}
+						<Image src={`data:${avatar.contentType};base64,${base64String}`} width='50' height='50' roundedCircle />
 					</Col>
 					<Col xs={2}>
 						<Card.Title as="h5">{username}</Card.Title>
@@ -46,7 +46,7 @@ export default function Poll(props) {
 								to={{
 									pathname: "/edituser",
 									state: {
-										userToEdit: props.data,
+										userToEdit: {id,fullName,role},
 									}
 								}}
 								className={"btn btn-md btn-outline-secondary"}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Badge, Button, Card, Col, ProgressBar } from "react-bootstrap";
+import { Badge, Card, Col, ProgressBar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default class PollCard extends Component {
