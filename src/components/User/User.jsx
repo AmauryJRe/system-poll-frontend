@@ -57,15 +57,17 @@ export default function Poll(props) {
 					)}
 					{isLoggedIn && (
 						<Col>
-							<Button
-								variant="outline-secondary"
-								onClick={() => {
-									props.setVisible();
-									props.setCurrentPoll(props.data);
-								}}
-							>
-								Details
-							</Button>
+							<Link
+							to={{
+								pathname: "/user",
+								state: {
+									user: { id, username, fullName, avatar ,role },
+								},
+							}}
+							className={"btn btn-md btn-outline-secondary"}
+						>
+							Details
+						</Link>
 						</Col>
 					)}
 				</Row>

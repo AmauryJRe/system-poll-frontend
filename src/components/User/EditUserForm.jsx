@@ -25,16 +25,17 @@ export default function EditUserForm(props) {
 		data.append("fullName", formData.fullName||userToEdit.fullName);
 		data.append("role", formData.role||userToEdit.role);
 
-		// var config = {
-		// 	method: "delete",
-		// 	url: `http://localhost:5000/userprofile`,
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 		"header-auth-token": localStorage.getItem("polls.token"),
-		// 	},
-		// };
+		var config = {
+			method: "patch",
+			url: `http://localhost:5000/userprofile`,
+			headers: {
+				"Content-Type": "application/json",
+				"header-auth-token": localStorage.getItem("polls.token"),
+			},
+			data:data
+		};
 
-		Axios.patch("http://localhost:5000/userprofile", data)
+		Axios(config)
 			.then((response) => {
 				setShow(true);
 			})

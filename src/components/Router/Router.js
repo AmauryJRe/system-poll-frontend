@@ -3,18 +3,19 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Header from "../Header/Header";
 import RegistrationForm from "../auth/RegistrationForm";
 import LoginForm from "../auth/LoginForm";
-import EditUserForm from '../User/EditUserForm';
+import EditUserForm from "../User/EditUserForm";
 import Users from "../User/Users";
 import Polls from "../Polls/Polls";
 import PollForm from "../Polls/Poll/PollForm";
 import Axios from "axios";
 import PollCard from "../Polls/Poll/PollCard";
+import UserCard from "../User/UserCard";
 
 export default class Router extends Component {
 	state = {
 		polls: [],
 		users: [],
-		editUser:[],
+		editUser: [],
 		pollsUserCantVote: [],
 		setSideBarVisible: false,
 		currentPoll: "",
@@ -22,10 +23,10 @@ export default class Router extends Component {
 
 	setEditUser = (user) => {
 		this.setState({
-			editUser:user
-		})
+			editUser: user,
+		});
 		console.log(user);
-	}
+	};
 
 	setVisible = () => {
 		this.setState({ setSideBarVisible: !this.state.setSideBarVisible });
@@ -81,8 +82,7 @@ export default class Router extends Component {
 		}
 	};
 
-
-	handleRequest = () => {		
+	handleRequest = () => {
 		if (this.props.auth.isLoggedIn) {
 			const user_id = localStorage.getItem("polls.user_id");
 			var config = {
@@ -94,14 +94,14 @@ export default class Router extends Component {
 				},
 			};
 			Axios(config)
-			.then((res) => {
-				this.setState({ pollsUserCantVote: res.data });
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+				.then((res) => {
+					this.setState({ pollsUserCantVote: res.data });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
-		
+
 		const urlPolls = `http://localhost:5000/poll`;
 		fetch(urlPolls)
 			.then((res) => {
@@ -149,10 +149,19 @@ export default class Router extends Component {
 		});
 
 		if (requestType === "post") {
-			Axios.post("http://localhost:5000/poll", {
-				name: pollName.current.value,
-				options: JSON.stringify(optionsFinal),
-			})
+			var config = {
+				method: "post",
+				url: `http://localhost:5000/poll`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+				data: {
+					name: pollName.current.value,
+					options: JSON.stringify(optionsFinal),
+				},
+			};
+			Axios(config)
 				.then((response) => {
 					console.log("On Add Poll");
 					console.log(response);
@@ -163,10 +172,19 @@ export default class Router extends Component {
 					console.log(err);
 				});
 		} else if (requestType === "patch") {
-			Axios.patch(`http://localhost:5000/poll/${pollData._id}`, {
-				name: pollName.current.value,
-				options: JSON.stringify(optionsFinal),
-			})
+			var config = {
+				method: "patch",
+				url: `http://localhost:5000/poll/${pollData._id}`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+				data: {
+					name: pollName.current.value,
+					options: JSON.stringify(optionsFinal),
+				},
+			};
+			Axios(config)
 				.then((response) => {
 					console.log("On Edit Poll");
 					console.log(response);
@@ -183,7 +201,16 @@ export default class Router extends Component {
 	makeVote = (e, user_id, poll_id, item_voted) => {
 		e.preventDefault();
 		if (this.props.auth.isLoggedIn) {
-			Axios.post("http://localhost:5000/vote", { user_id: user_id, poll_id: poll_id, item_voted: item_voted })
+			var config = {
+				method: "post",
+				url: `http://localhost:5000/vote`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+				data: { user_id: user_id, poll_id: poll_id, item_voted: item_voted },
+			};
+			Axios(config)
 				.then((res) => {
 					this.handleRequest();
 				})
@@ -223,9 +250,8 @@ export default class Router extends Component {
 								/>
 							)}
 						/>
-						<Route
-						exact path="/poll"
-						component={PollCard}/>
+						<Route exact path="/poll" component={PollCard} />
+						<Route exact path="/user" component={UserCard} />
 						<Route
 							exact
 							path="/addpoll"
