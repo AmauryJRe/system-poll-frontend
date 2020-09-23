@@ -33,7 +33,7 @@ const Navigation=(props)=> {
 	}
 	const guestLinks = (
 			<Fragment>
-			<Navbar.Brand href="#home">Polls App</Navbar.Brand>
+			<Navbar.Brand href="/">Polls App</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="mr-auto">

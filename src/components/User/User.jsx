@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
 export default function Poll(props) {
 	
-	const { id, username, fullName, avatar ,role } = props.data;
+	const { _id, username, fullName, avatar ,role } = props.data;
 	
 	let TYPED_ARRAY = new Uint8Array(avatar.data.data);
 	const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
@@ -13,7 +13,7 @@ export default function Poll(props) {
 	const { isLoggedIn } = props.auth;
 	const [show, setShow] = useState(false);
 	const deletedConfirmed = () => {
-		props.handleDelete(id);
+		props.handleDelete(_id);
 	};
 	return (
 		<Card className="shadow mb-3" border="light">
@@ -46,7 +46,7 @@ export default function Poll(props) {
 								to={{
 									pathname: "/edituser",
 									state: {
-										userToEdit: {id,fullName,role},
+										userToEdit: {_id,fullName,role},
 									}
 								}}
 								className={"btn btn-md btn-outline-secondary"}
