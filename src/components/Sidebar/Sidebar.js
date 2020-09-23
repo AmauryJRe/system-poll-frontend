@@ -25,7 +25,7 @@ export default class Sidebar extends Component {
 	onSubmit = (e) => {
 		if (this.state.selectedOption) {
 			const poll_id = this.props.currentPoll._id;
-			const user_id = 10;
+			const user_id = localStorage.getItem('polls.user_id');
 			const item_voted = this.state.selectedOption;
 			this.props.makeVote(e,user_id,poll_id,item_voted);
 			this.props.setVisible();
@@ -47,7 +47,7 @@ export default class Sidebar extends Component {
 					openFromRight={true}
 					showNav={this.props.setSideBarVisible}
 					onHideNav={() => {
-						this.props.setVisible(false);
+						this.props.setVisible();
 						this.setState({ selectedOption: null });
 					}}
 					title="Hello World"

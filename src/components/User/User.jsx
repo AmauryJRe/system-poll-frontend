@@ -1,17 +1,18 @@
-import { CheckIcon, CircleSlashIcon, PencilIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 import { Button, Card, Col, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
 export default function Poll(props) {
+	
 	const { id, username, fullName, avatar } = props.data;
-	let TYPED_ARRAY = new Uint8Array(avatar.data.data);
-	const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
-	let base64String = btoa(STRING_CHAR);
+	
+	// let TYPED_ARRAY = new Uint8Array(avatar.data.data);
+	// const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
+	// let base64String = btoa(STRING_CHAR);
 	
 	const { isLoggedIn } = props.auth;
 	const [show, setShow] = useState(false);
-	const deleConfirmed = () => {
+	const deletedConfirmed = () => {
 		props.handleDelete(id);
 	};
 	return (
@@ -19,7 +20,7 @@ export default function Poll(props) {
 			<Card.Body>
 				<Row>
 					<Col xs={1} md={1}>
-						<Image src={`data:${avatar.contentType};base64,${base64String}`} width='50' height='50' roundedCircle />
+						{/* <Image src={`data:${avatar.contentType};base64,${"base64String"}`} width='50' height='50' roundedCircle /> */}
 					</Col>
 					<Col xs={2}>
 						<Card.Title as="h5">{username}</Card.Title>
@@ -45,10 +46,8 @@ export default function Poll(props) {
 								to={{
 									pathname: "/edituser",
 									state: {
-										pollToEdit: props.data,
-									},
-									sendDataToApi: props.sendDataToApi,
-									handleRequest: props.handleRequest,
+										userToEdit: props.data,
+									}
 								}}
 								className={"btn btn-md btn-outline-secondary"}
 							>
@@ -78,13 +77,13 @@ export default function Poll(props) {
 					confirmBtnText="Yes, delete it!"
 					confirmBtnBsStyle="danger"
 					title="Are you sure?"
-					onConfirm={deleConfirmed}
+					onConfirm={deletedConfirmed}
 					onCancel={() => {
 						setShow(false);
 					}}
 					focusCancelBtn
 				>
-					You will not be able to recover this poll
+					You will not be able to recover this user
 				</SweetAlert>
 			)}
 		</Card>

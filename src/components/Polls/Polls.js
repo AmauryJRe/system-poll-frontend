@@ -21,7 +21,7 @@ export default class Polls extends Component {
 							data={poll}
 							setVisible={this.props.setVisible}
 							setCurrentPoll={this.props.setCurrentPoll}
-							handleDelete={this.props.handleDelete}
+							handleDeletePoll={this.props.handleDeletePoll}
 							handleRequest={this.props.handleRequest}
 							sendDataToApi={this.props.sendDataToApi}
 							auth={this.props.auth}

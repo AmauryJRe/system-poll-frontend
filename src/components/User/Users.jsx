@@ -20,12 +20,13 @@ export default class Users extends Component {
 				{userList.map((user) => (
 					<CSSTransition key={user._id} className="fade" timeout={100}>
 						<User
+							setEditUser={this.props.setEditUser}
 							data={user}
 							setVisible={this.props.setVisible}
 							// setCurrentPoll={this.props.setCurrentPoll}
 							// handleDelete={this.props.handleDelete}
-							// handleRequest={this.props.handleRequest}
-							// sendDataToApi={this.props.sendDataToApi}
+							handleRequest={this.props.handleRequest}
+							sendUserDataToApi={this.props.sendUserDataToApi}
 							auth={this.props.auth}
 						/>
 					</CSSTransition>

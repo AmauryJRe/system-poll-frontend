@@ -10,9 +10,9 @@ export default class Header extends Component {
 					auth={this.props.auth}
 					setAuthState={this.props.setAuthState}
 					setSideBarVisible={this.props.setSideBarVisible}
-					setVisible={this.setVisible}
+					setVisible={this.props.setVisible}
 					currentPoll={this.props.currentPoll}
-					makeVote={this.makeVote}
+					makeVote={this.props.makeVote}
 					pollsUserCantVote={this.props.pollsUserCantVote}
 				/>
 			</header>

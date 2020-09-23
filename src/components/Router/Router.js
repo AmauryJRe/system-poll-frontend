@@ -1,22 +1,31 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Header from "../Header/Header";
-import PollForm from "../Polls/Poll/PollForm";
 import RegistrationForm from "../auth/RegistrationForm";
 import LoginForm from "../auth/LoginForm";
+import EditUserForm from '../User/EditUserForm';
+import Users from "../User/Users";
 import Polls from "../Polls/Polls";
-import Users from "../User/Users"
+import PollForm from "../Polls/Poll/PollForm";
 import Axios from "axios";
-
+import PollCard from "../Polls/Poll/PollCard";
 
 export default class Router extends Component {
 	state = {
 		polls: [],
 		users: [],
+		editUser:[],
 		pollsUserCantVote: [],
 		setSideBarVisible: false,
 		currentPoll: "",
 	};
+
+	setEditUser = (user) => {
+		this.setState({
+			editUser:user
+		})
+		console.log(user);
+	}
 
 	setVisible = () => {
 		this.setState({ setSideBarVisible: !this.state.setSideBarVisible });
@@ -30,9 +39,9 @@ export default class Router extends Component {
 		this.handleRequest();
 	}
 
-	handleDelete = (id) => {
+	handleDeletePoll = (id) => {
 		if (this.props.auth.isLoggedIn) {
-			console.log("delete the poll with id " + id);
+			console.log("Delete the poll with id " + id);
 			var config = {
 				method: "delete",
 				url: `http://localhost:5000/poll/${id}`,
@@ -51,11 +60,31 @@ export default class Router extends Component {
 		}
 	};
 
-	handleRequest = () => {
-		const urlPolls = `http://localhost:5000/poll`;
-
+	handleDeleteUser = (id) => {
 		if (this.props.auth.isLoggedIn) {
-			const user_id = localStorage.getItem("user_id");
+			console.log("Delete the user with id " + id);
+			var config = {
+				method: "delete",
+				url: `http://localhost:5000/user/${id}`,
+				headers: {
+					"Content-Type": "application/json",
+					"header-auth-token": localStorage.getItem("polls.token"),
+				},
+			};
+			Axios(config)
+				.then((res) => {
+					this.handleRequest();
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
+
+
+	handleRequest = () => {		
+		if (this.props.auth.isLoggedIn) {
+			const user_id = localStorage.getItem("polls.user_id");
 			var config = {
 				method: "get",
 				url: `http://localhost:5000/vote/cantVote/${user_id}`,
@@ -65,14 +94,15 @@ export default class Router extends Component {
 				},
 			};
 			Axios(config)
-				.then((res) => {
-					this.setState({ pollsUserCantVote: res.data });
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+			.then((res) => {
+				this.setState({ pollsUserCantVote: res.data });
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 		}
-
+		
+		const urlPolls = `http://localhost:5000/poll`;
 		fetch(urlPolls)
 			.then((res) => {
 				return res.json();
@@ -86,7 +116,7 @@ export default class Router extends Component {
 				console.log(err);
 			});
 
-			fetch("http://localhost:5000/userprofile")
+		fetch("http://localhost:5000/userprofile")
 			.then((res) => {
 				return res.json();
 			})
@@ -153,13 +183,14 @@ export default class Router extends Component {
 	makeVote = (e, user_id, poll_id, item_voted) => {
 		e.preventDefault();
 		if (this.props.auth.isLoggedIn) {
-		Axios.post("http://localhost:5000/vote", { user_id: user_id, poll_id: poll_id, item_voted: item_voted })
-			.then((res) => {
-				this.handleRequest();
-			})
-			.catch((err) => {
-				console.error(err);
-			});}
+			Axios.post("http://localhost:5000/vote", { user_id: user_id, poll_id: poll_id, item_voted: item_voted })
+				.then((res) => {
+					this.handleRequest();
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		}
 	};
 
 	render() {
@@ -184,7 +215,7 @@ export default class Router extends Component {
 								<Polls
 									polls={this.state.polls}
 									setVisible={this.setVisible}
-									handleDelete={this.handleDelete}
+									handleDeletePoll={this.handleDeletePoll}
 									handleRequest={this.handleRequest}
 									sendDataToApi={this.sendDataToApi}
 									setCurrentPoll={this.setCurrentPoll}
@@ -193,25 +224,32 @@ export default class Router extends Component {
 							)}
 						/>
 						<Route
+						exact path="/poll"
+						component={PollCard}/>
+						<Route
 							exact
 							path="/addpoll"
 							render={() => <PollForm handleRequest={this.handleRequest} sendDataToApi={this.sendDataToApi} />}
 						/>
 						<Route exact path="/editpoll" component={PollForm} />
-						<Route exact
+						<Route exact path="/edituser" component={EditUserForm} />
+						<Route
+							exact
 							path="/users"
 							render={() => (
 								<Users
 									users={this.state.users}
 									auth={this.props.auth}
+									setEditUser={this.setEditUser}
 									// setVisible={this.setVisible}
 									// handleDelete={this.handleDelete}
-									// handleRequest={this.handleRequest}
-									// sendDataToApi={this.sendDataToApi}
+									handleRequest={this.handleRequest}
+									sendUserDataToApi={this.sendUserDataToApi}
 									// setCurrentPoll={this.setCurrentPoll}
 								/>
-							)} />
-						<Route exact path="/register" render={() => <RegistrationForm setAuthState={this.props.setAuthState}/>} />
+							)}
+						/>
+						<Route exact path="/register" render={() => <RegistrationForm setAuthState={this.props.setAuthState} />} />
 						<Route
 							exact
 							path="/login"

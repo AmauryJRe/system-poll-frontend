@@ -2,17 +2,15 @@ import { CheckIcon, CircleSlashIcon, PencilIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import SweetAlert from 'react-bootstrap-sweetalert';
+import SweetAlert from "react-bootstrap-sweetalert";
 
 export default function Poll(props) {
-
-
 	const { _id, name, closed, edited } = props.data;
 	const { isLoggedIn } = props.auth;
 	const [show, setShow] = useState(false);
-	const deleConfirmed = () => { 
-		props.handleDelete(_id)
-	}
+	const deletedConfirmed = () => {
+		props.handleDeletePoll(_id);
+	};
 	return (
 		<Card className="shadow mb-3" border="light">
 			<Card.Body>
@@ -26,12 +24,17 @@ export default function Poll(props) {
 							<CheckIcon size="medium" aria-label="NewPoll" />
 						)}
 					</Col>
-					<Col xs={8}>
+					<Col xs={6}>
 						<Card.Title as="h5">{name}</Card.Title>
 					</Col>
 					{isLoggedIn && (
 						<Col>
-							<Button onClick={() => { setShow(true) }}variant="outline-danger">
+							<Button
+								onClick={() => {
+									setShow(true);
+								}}
+								variant="outline-danger"
+							>
 								Delete
 							</Button>
 						</Col>
@@ -45,7 +48,6 @@ export default function Poll(props) {
 										pollToEdit: props.data,
 									},
 									sendDataToApi: props.sendDataToApi,
-									handleRequest: props.handleRequest,
 								}}
 								className={closed ? "btn btn-md btn-outline-secondary disabled" : "btn btn-md btn-outline-secondary"}
 							>
@@ -67,10 +69,23 @@ export default function Poll(props) {
 										: null
 								}
 							>
-								Details
+								Vote
 							</Button>
 						</Col>
 					)}
+					<Col>
+						<Link
+							to={{
+								pathname: "/poll",
+								state: {
+									poll: props.data,
+								},
+							}}
+							className={"btn btn-md btn-outline-secondary"}
+						>
+							Details
+						</Link>
+					</Col>
 				</Row>
 			</Card.Body>
 			{show && (
@@ -80,13 +95,15 @@ export default function Poll(props) {
 					confirmBtnText="Yes, delete it!"
 					confirmBtnBsStyle="danger"
 					title="Are you sure?"
-					onConfirm={deleConfirmed}
-					onCancel={() => { setShow(false) }}
+					onConfirm={deletedConfirmed}
+					onCancel={() => {
+						setShow(false);
+					}}
 					focusCancelBtn
-						>
-							You will not be able to recover this poll
-						</SweetAlert>
-				)}
+				>
+					You will not be able to recover this poll
+				</SweetAlert>
+			)}
 		</Card>
 	);
 }
