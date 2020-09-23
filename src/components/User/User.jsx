@@ -61,7 +61,7 @@ export default function Poll(props) {
 							to={{
 								pathname: "/user",
 								state: {
-									user: { id, username, fullName, avatar ,role },
+									user: props.data
 								},
 							}}
 							className={"btn btn-md btn-outline-secondary"}

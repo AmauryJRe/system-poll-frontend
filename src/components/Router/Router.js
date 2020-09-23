@@ -172,7 +172,7 @@ export default class Router extends Component {
 					console.log(err);
 				});
 		} else if (requestType === "patch") {
-			var config = {
+				config = {
 				method: "patch",
 				url: `http://localhost:5000/poll/${pollData._id}`,
 				headers: {
