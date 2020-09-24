@@ -11,6 +11,7 @@ import { FaVoteYea } from "react-icons/fa";
 export default function Poll(props) {
 	const { _id, name, closed, edited } = props.data;
 	const { isLoggedIn } = props.auth;
+	const userRole = localStorage.getItem("polls.role");
 	const [show, setShow] = useState(false);
 	const deletedConfirmed = () => {
 		props.handleDeletePoll(_id);
@@ -32,7 +33,7 @@ export default function Poll(props) {
 						<Card.Title as="h5">{name}</Card.Title>
 						
 					</Col>
-					{isLoggedIn && (
+					{(isLoggedIn && userRole === "admin" || userRole === "superadmin") && (
 						<Col>
 							<Button
 								onClick={() => {
