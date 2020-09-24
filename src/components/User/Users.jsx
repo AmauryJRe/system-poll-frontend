@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import User from "./User.jsx";
+import { IoIosAddCircleOutline } from "react-icons/io";
 export default class Users extends Component {
 	render() {
 		const userList = this.props.users;
@@ -12,7 +13,7 @@ export default class Users extends Component {
 			<TransitionGroup>
 				{isLoggedIn ? (
 					<Link className="btn btn-lg btn-outline-success mb-2" to={"/adduser"}>
-						Add
+						<IoIosAddCircleOutline style={{fontSize:30}}/> Add User
 					</Link>
 				) : (
 					<b></b>

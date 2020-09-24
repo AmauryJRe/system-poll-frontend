@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { CgDetailsMore } from "react-icons/cg";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { FaVoteYea } from "react-icons/fa";
+
 
 export default function Poll(props) {
 	const { _id, name, closed, edited } = props.data;
@@ -26,6 +30,7 @@ export default function Poll(props) {
 					</Col>
 					<Col xs={6}>
 						<Card.Title as="h5">{name}</Card.Title>
+						
 					</Col>
 					{isLoggedIn && (
 						<Col>
@@ -35,7 +40,7 @@ export default function Poll(props) {
 								}}
 								variant="outline-danger"
 							>
-								Delete
+								<RiDeleteBinLine style={{fontSize:20}}/>
 							</Button>
 						</Col>
 					)}
@@ -69,7 +74,7 @@ export default function Poll(props) {
 										: null
 								}
 							>
-								Vote
+								<FaVoteYea style={{fontSize:20}}/>
 							</Button>
 						</Col>
 					)}
@@ -83,11 +88,14 @@ export default function Poll(props) {
 							}}
 							className={"btn btn-md btn-outline-secondary"}
 						>
-							Details
+						<CgDetailsMore style={{fontSize:20}}/>
 						</Link>
+						
 					</Col>
+					
 				</Row>
 			</Card.Body>
+			
 			{show && (
 				<SweetAlert
 					warning
@@ -104,6 +112,7 @@ export default function Poll(props) {
 					You will not be able to recover this poll
 				</SweetAlert>
 			)}
+			
 		</Card>
 	);
 }

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Card, Col, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { CgDetailsMore } from "react-icons/cg";
+import { RiDeleteBinLine } from "react-icons/ri";
 export default function Poll(props) {
 	
 	const { _id, username, fullName, avatar ,role } = props.data;
@@ -36,7 +38,7 @@ export default function Poll(props) {
 								}}
 								variant="outline-danger"
 							>
-								Delete
+								<RiDeleteBinLine style={{fontSize:20}}/>
 							</Button>
 						</Col>
 					)}
@@ -66,7 +68,7 @@ export default function Poll(props) {
 							}}
 							className={"btn btn-md btn-outline-secondary"}
 						>
-							Details
+							<CgDetailsMore style={{fontSize:20}}/>
 						</Link>
 						</Col>
 					)}

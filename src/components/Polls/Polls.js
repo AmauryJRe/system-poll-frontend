@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Poll from "./Poll/Poll";
+import { IoIosAddCircleOutline } from "react-icons/io"; 
 export default class Polls extends Component {
 	render() {
 		const pollList = this.props.polls;
@@ -11,7 +12,7 @@ export default class Polls extends Component {
 		return (
 			<TransitionGroup>
 				{isLoggedIn?(<Link className="btn btn-lg btn-outline-success mb-2" to={"/addpoll"}>
-					Add New Poll
+					<IoIosAddCircleOutline style={{fontSize:30}}/> Add Poll
 				</Link>):(<b></b>)
 				
 	}

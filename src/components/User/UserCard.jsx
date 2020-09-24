@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import { Card, Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import '../../App.css'
-import { FaUserCircle,FaHome } from "react-icons/fa";
-import { BsBuilding } from "react-icons/bs";
-
+import { FaUserCircle } from "react-icons/fa";
+import { SiDassaultsystemes } from "react-icons/si";
+import { GoHome } from "react-icons/go";
 
 export default class UserCard extends Component {
 
@@ -60,10 +60,10 @@ componentDidMount(){
 					</Card.Subtitle>
 					<ListGroup variant="flush">
 						<ListGroup.Item style={{textAlign:'left'}}>Access Level: {userData.role}</ListGroup.Item>
-						<ListGroup.Item><BsBuilding/> Poll System App	</ListGroup.Item>
+						<ListGroup.Item><SiDassaultsystemes style={{fontSize:20}}/> Poll System App	</ListGroup.Item>
 					</ListGroup>
 					<Link to={"/"} style={{fontSize:20}}className="btn btn-md btn-primary btn-block">
-						<FaHome/>
+						<GoHome/>
 					</Link>
 				</Card.Body>
 			</Card>
