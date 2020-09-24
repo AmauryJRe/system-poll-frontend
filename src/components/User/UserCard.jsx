@@ -1,7 +1,11 @@
 import Axios from "axios";
 import React, { Component } from "react";
-import { Button, Card, Image, ListGroup } from "react-bootstrap";
+import { Card, Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import '../../App.css'
+import { FaUserCircle,FaHome } from "react-icons/fa";
+import { BsBuilding } from "react-icons/bs";
+
 
 export default class UserCard extends Component {
 
@@ -42,23 +46,24 @@ componentDidMount(){
 		const userData = this.props.location.state.user;
 		const base64String = this.state.base64String
 		return (
-			<Card>
-				<Image
+			<Card className="UserCard">
+				<Card.Img style={{maxWidth:280}} className="rounded-circle" 
 					variant="top"
 					src={`data:${userData.avatar.contentType};base64,${base64String}`}
-					width="150"
-					height="150"
-					roundedCircle
 				/>
 
 				<Card.Body>
-					<Card.Title>{userData.fullName}</Card.Title>
+					<Card.Title style={{ textAlign: 'center' }} >{userData.fullName}</Card.Title>
+					
+					<Card.Subtitle style={{ textAlign: 'center'}}>
+					<FaUserCircle/>	{userData.username}
+					</Card.Subtitle>
 					<ListGroup variant="flush">
-						<ListGroup.Item>Username: {userData.username}</ListGroup.Item>
-						<ListGroup.Item>Role: {userData.role}</ListGroup.Item>
+						<ListGroup.Item style={{textAlign:'left'}}>Access Level: {userData.role}</ListGroup.Item>
+						<ListGroup.Item><BsBuilding/> Poll System App	</ListGroup.Item>
 					</ListGroup>
-					<Link to={"/"} className="btn btn-md btn-primary">
-						Go Home
+					<Link to={"/"} style={{fontSize:20}}className="btn btn-md btn-primary btn-block">
+						<FaHome/>
 					</Link>
 				</Card.Body>
 			</Card>
