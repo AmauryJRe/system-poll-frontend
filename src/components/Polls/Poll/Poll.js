@@ -10,12 +10,12 @@ import { FaVoteYea } from "react-icons/fa";
 
 export default function Poll(props) {
 	const { _id, name, closed, edited } = props.data;
-	const { isLoggedIn } = props.auth;
-	const userRole = localStorage.getItem("polls.role");
+	const { isLoggedIn , role } = props.auth;
 	const [show, setShow] = useState(false);
 	const deletedConfirmed = () => {
 		props.handleDeletePoll(_id);
 	};
+
 	return (
 		<Card className="shadow mb-3" border="light">
 			<Card.Body>
@@ -33,7 +33,7 @@ export default function Poll(props) {
 						<Card.Title as="h5">{name}</Card.Title>
 						
 					</Col>
-					{(isLoggedIn && userRole === "admin" || userRole === "superadmin") && (
+					{(isLoggedIn && role === "admin" || role === "superadmin") && (
 						<Col>
 							<Button
 								onClick={() => {
@@ -45,7 +45,7 @@ export default function Poll(props) {
 							</Button>
 						</Col>
 					)}
-					{isLoggedIn && (
+					{(isLoggedIn && role === "admin" || role === "superadmin") && (
 						<Col>
 							<Link
 								to={{
