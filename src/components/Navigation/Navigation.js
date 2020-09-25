@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React, { Fragment, useState } from "react";
-import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import Sidebar from "../Sidebar/Sidebar";
 import { Link, useHistory } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -10,7 +10,6 @@ import { GoHome } from "react-icons/go";
 import { SiDassaultsystemes } from "react-icons/si";
 import { AiOutlineUser, AiOutlineLogin } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
-import { CircleIcon, PersonIcon } from "@primer/octicons-react";
 
 const Navigation = (props) => {
 	const { isLoggedIn } = props.auth;
@@ -47,11 +46,11 @@ const Navigation = (props) => {
 				</Nav>
 			</Navbar.Collapse>
 			<Nav.Link className="mr-2 btn btn-sm btn-outline-success" as={Link} to={"/register"}>
-				<FaWpforms style={{ fontSize: 20 }} /> Register
+				<FaWpforms style={{ fontSize: 20 }} /> Sign up
 			</Nav.Link>
 			<Nav.Link className="mr-2 btn btn-sm btn-outline-success" as={Link} to={"/login"}>
 				<AiOutlineLogin style={{ fontSize: 20 }} />
-				Login
+				Sign in
 			</Nav.Link>
 		</Fragment>
 	);
@@ -78,22 +77,6 @@ const Navigation = (props) => {
 						<AiOutlineUser style={{ fontSize: 20 }} /> Users
 					</Nav.Link>
 				</Nav>
-			</Navbar.Collapse>
-			<Navbar.Collapse className="justify-content-end">
-				<Navbar.Text>Signed in as: </Navbar.Text>
-				<PersonIcon size="small" aria-label="username" className="ml-1" />
-				<NavDropdown title={localStorage.getItem("polls.username")} id="collasible-nav-dropdown">
-					<NavDropdown.Item
-						href="#action/3.1"
-						className="mr-2 btn btn-sm btn-outline-success"
-						onClick={handleClickLogOut}
-					>
-						Logout
-					</NavDropdown.Item>
-				</NavDropdown>
-				{/* <Nav.Link className="mr-2 btn btn-sm btn-outline-success" onClick={handleClickLogOut}>
-					Logout
-				</Nav.Link> */}
 			</Navbar.Collapse>
 			<Nav.Link className="mr-2 btn btn-sm btn-outline-success" onClick={handleClickLogOut}>
 				Logout <AiOutlineLogout style={{ fontSize: 20 }} />
