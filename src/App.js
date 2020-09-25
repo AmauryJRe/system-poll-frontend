@@ -51,11 +51,14 @@ export default class App extends Component {
 	};
 
 	componentDidMount() {
-		if(localStorage.getItem("polls.token"))
-		this.checkToken();
+		console.log('Checking token');
+		if(localStorage.getItem("polls.token")){
+			this.checkToken();
+		}
 	}
 
 	checkToken = () => {
+		console.log('Checking token');
 		const config = {
 			method: "post",
 			url: `http://localhost:5000/checktoken`,

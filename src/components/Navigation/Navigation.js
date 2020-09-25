@@ -12,7 +12,7 @@ import { AiOutlineUser, AiOutlineLogin } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 
 const Navigation = (props) => {
-	const { isLoggedIn } = props.auth;
+	const { isLoggedIn,role } = props.auth;
 	const { setAuthState } = props;
 	const history = useHistory();
 	const [show, setShow] = useState(false);
@@ -73,9 +73,11 @@ const Navigation = (props) => {
 					<Nav.Link as={Link} to={"/"}>
 						<GoHome style={{ fontSize: 20 }} /> Home
 					</Nav.Link>
+					{isLoggedIn && role ==="superadmin" &&
 					<Nav.Link as={Link} to={"/users"}>
 						<AiOutlineUser style={{ fontSize: 20 }} /> Users
 					</Nav.Link>
+					}
 				</Nav>
 			</Navbar.Collapse>
 			<Nav.Link className="mr-2 btn btn-sm btn-outline-success" onClick={handleClickLogOut}>

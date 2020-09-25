@@ -8,10 +8,10 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 export default class Users extends Component {
 	render() {
 		const userList = this.props.users;
-		const { isLoggedIn } = this.props.auth;
+		const { isLoggedIn, role } = this.props.auth;
 		return (
 			<TransitionGroup>
-				{isLoggedIn ? (
+				{isLoggedIn  && role ==="superadmin"  ? (
 					<Link className="btn btn-lg btn-outline-success mb-2" to={"/adduser"}>
 						<IoIosAddCircleOutline style={{fontSize:30}}/> Add User
 					</Link>

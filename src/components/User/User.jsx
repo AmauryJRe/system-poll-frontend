@@ -6,13 +6,13 @@ import { CgDetailsMore } from "react-icons/cg";
 import { RiDeleteBinLine } from "react-icons/ri";
 export default function Poll(props) {
 	
-	const { _id, username, fullName, avatar ,role } = props.data;
+	const { _id, username, fullName, avatar } = props.data;
 	
 	let TYPED_ARRAY = new Uint8Array(avatar.data.data);
 	const STRING_CHAR = TYPED_ARRAY.reduce((data, byte)=> {return data + String.fromCharCode(byte);}, '');
 	let base64String = btoa(STRING_CHAR);
 	
-	const { isLoggedIn } = props.auth;
+	const { isLoggedIn, role } = props.auth;
 	const [show, setShow] = useState(false);
 	const deletedConfirmed = () => {
 		props.handleDelete(_id);
@@ -30,7 +30,7 @@ export default function Poll(props) {
 					<Col xs={5}>
 						<Card.Title as="h5">{fullName}</Card.Title>
 					</Col>
-					{isLoggedIn && (
+					{isLoggedIn && role ==="superadmin" && (
 						<Col>
 							<Button
 								onClick={() => {
@@ -42,13 +42,13 @@ export default function Poll(props) {
 							</Button>
 						</Col>
 					)}
-					{isLoggedIn && (
+					{isLoggedIn && role ==="superadmin" && (
 						<Col>
 							<Link
 								to={{
 									pathname: "/edituser",
 									state: {
-										userToEdit: {_id,fullName,role},
+										userToEdit: {_id,fullName,role:props.data.role},
 									}
 								}}
 								className={"btn btn-md btn-outline-secondary"}
@@ -57,7 +57,7 @@ export default function Poll(props) {
 							</Link>
 						</Col>
 					)}
-					{isLoggedIn && (
+					{isLoggedIn && role ==="superadmin" && (
 						<Col>
 							<Link
 							to={{

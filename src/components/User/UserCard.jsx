@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { Component } from "react";
-import { Card, Image, ListGroup } from "react-bootstrap";
+import { Card, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import '../../App.css'
 import { FaUserCircle } from "react-icons/fa";
